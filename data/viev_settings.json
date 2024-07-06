@@ -1,0 +1,14 @@
+{
+  "color_mods": ["light", "dark"],
+  "color_mode": "light",
+  "color_settings" : {
+    "light": {
+      "text_color": "#000000",
+      "window_color": "#AAAAAA"
+    },
+    "dark": {
+      "text_color": "#000000",
+      "window_color": "#AAAAAA"
+    }
+  }
+}

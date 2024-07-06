@@ -7,9 +7,10 @@ from datetime import datetime, timedelta
 from random import randrange, randint
 
 
+
 conn_str = (
     r"DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};"
-    r"DBQ=..\Database.accdb;"
+    r"DBQ=..\data\Database.accdb;"
 )
 connection = pyodbc.connect(conn_str)
 cursor = connection.cursor()
