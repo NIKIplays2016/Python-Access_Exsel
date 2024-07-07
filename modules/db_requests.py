@@ -25,13 +25,15 @@ def create_sql_time(str_time: str) -> str:
         except ValueError:
             continue
 
-    formatted_time = dt.strftime('%Y-%m-%d %H:%M:%S')
-    sql_time = f"#{formatted_time}#"
-
+    try:
+        formatted_time = dt.strftime('%Y-%m-%d %H:%M:%S')
+        sql_time = f"#{formatted_time}#"
+    except:
+        sql_time=""
     return sql_time
 
 
-def search_line(collumn_name: str, collumn_value: str, sign: str, start_date = None, end_date = None ) -> tuple:
+def search_line(collumn_name: str, collumn_value: str, sign: str, start_date = None, end_date = None ) -> list:
     cursor = connection.cursor()
 
     filter = {
@@ -43,16 +45,27 @@ def search_line(collumn_name: str, collumn_value: str, sign: str, start_date = N
     }
 
     converter = filter.get(collumn_name, str)  # По умолчанию, используем str
-    collumn_value = converter(collumn_value)
+    try:
+        collumn_value = converter(collumn_value)
+    except:
+        raise TypeError
 
-    if start_date and end_date:
+    if start_date or end_date:
         start_date_sql = create_sql_time(start_date)
         end_date_sql = create_sql_time(end_date)
-        cursor.execute(
-            f"SELECT * FROM transactions WHERE {collumn_name} {sign} {collumn_value} AND trans_date BETWEEN {start_date_sql} AND {end_date_sql}"
-        )
+        if not start_date:
+            request = f"SELECT * FROM transactions WHERE {collumn_name} {sign} {collumn_value} AND trans_date < {end_date_sql}"
+        elif not end_date:
+            request = f"SELECT * FROM transactions WHERE {collumn_name} {sign} {collumn_value} AND trans_date > {start_date_sql}"
+        else:
+            request = f"SELECT * FROM transactions WHERE {collumn_name} {sign} {collumn_value} AND trans_date BETWEEN {start_date_sql} AND {end_date_sql}"
     else:
-        cursor.execute(f"SELECT * FROM transactions WHERE {collumn_name} {sign} {collumn_value}")
+        request = f"SELECT * FROM transactions WHERE {collumn_name} {sign} {collumn_value}"
+
+    try:
+        cursor.execute(request)
+    except:
+        raise SyntaxError
 
     transactions = cursor.fetchall()
     cursor.close()
