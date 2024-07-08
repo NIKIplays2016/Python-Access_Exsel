@@ -5,6 +5,25 @@ from datetime import datetime
 
 connection = pyodbc.connect(r"DRIVER={Microsoft Access Driver (*.mdb, *.accdb)}; DBQ=data\Database.accdb;")
 
+def get_data_about_database() -> dir:
+    cursor = connection.cursor()
+    cursor.execute("SELECT COUNT(*) AS RowCount FROM transactions;")
+
+    count_row = cursor.fetchall()[0][0]
+
+    cursor.execute(f"SELECT trans_date FROM transactions WHERE id = {1}")
+    start_date = cursor.fetchall()[0][0]
+    cursor.execute(f"SELECT trans_date FROM transactions WHERE id = {count_row};")
+    end_date = cursor.fetchall()[0][0]
+
+    answere = {}
+    answere["count_row"] = count_row
+    answere["start_date"] = start_date
+    answere["end_date"] = end_date
+
+    return answere
+
+
 def create_sql_time(str_time: str) -> str:
     formats = [
         '%d-%m-%Y %H:%M:%S',  # Формат с часами, минутами и секундами

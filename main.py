@@ -1,9 +1,8 @@
-import pyodbc
-from tkinter import Tk, ttk, Label, Button, Checkbutton
+from tkinter import Tk, ttk
 
-from modules.secondary_widgets import field_info_table
-from modules.find_widgets import field_find_table
-
+from tables.secondary_widgets import field_info_table
+from tables.find_widgets import field_find_table
+from tables.finance_widgets import field_finance_table
 
 window = Tk()
 window.geometry("500x700")
@@ -26,7 +25,7 @@ style.configure("TNotebook.Tab", padding=[10, 4], font=('Calibri', 12))
 
 notebook.configure(style="TNotebook")
 
-
+field_finance_table(finance_tab)
 field_find_table(find_tab)
 field_info_table(info_tab)
 
