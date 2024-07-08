@@ -18,6 +18,8 @@ def create_sql_time(str_time: str) -> str:
     if len(str_time) <= 11:
         str_time = str_time.replace(" ", "")
 
+
+
     for fmt in formats:
         try:
             dt = datetime.strptime(str_time, fmt)
@@ -25,6 +27,8 @@ def create_sql_time(str_time: str) -> str:
         except ValueError:
             continue
 
+
+    print(str_time, dt, "говно")
     try:
         formatted_time = dt.strftime('%Y-%m-%d %H:%M:%S')
         sql_time = f"#{formatted_time}#"
@@ -40,8 +44,8 @@ def search_line(collumn_name: str, collumn_value: str, sign: str, start_date = N
         "id": int,
         "count": int,
         "price": Decimal,
-        "unexpected_expenses": create_sql_time,
-        "trans_date": datetime
+        "unexpected_expenses": Decimal,
+        "trans_date": create_sql_time
     }
 
     converter = filter.get(collumn_name, str)  # По умолчанию, используем str

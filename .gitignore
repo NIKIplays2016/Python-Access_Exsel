@@ -2,6 +2,7 @@
 *.laccdb
 *.accdb
 test.py
+.idea/
 ### MY
 
 

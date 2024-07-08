@@ -78,7 +78,7 @@ def salary_issuance(date: datetime) -> None:
 
     if salarys:
         for people in salarys:
-            hours_worked = round(160 * people[6] * ((randrange(6,12) / 10)))    #Генерация отработанных часов
+            hours_worked = int(160 * people[6] * ((randrange(6,12) / 10)))    #Генерация отработанных часов
 
             data = (people[1], people[3], hours_worked, people[5], date)                #Сбор всех нужных данных для функции в кортеж
             ecording_transaction(*data)
